@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-3.4.1.min.js"></script>
+	<style>
+		*{
+			margin: 0;
+		}
+		#bigImg{
+			background-image: url(1.jpg);
+			width: 740px;
+			height: 400px;
+			background-size: cover;
+  			position: relative;
+		}
+		.minImg{
+			background-image: url(2.jpg);
+  			background-size: cover;
+  			position: absolute;
+  			width: 33%; 
+  			box-shadow: 0 5px 10px -2px rgba(0,0,0,0.3);
+  			overflow: hidden;
+  			bottom: 0;
+  			height: 100%;
+		}
+		/*#minImg1{
+			background-image: url(3.jpg);
+  			background-size: cover;
+  			position: absolute;
+  			width: 66%; 
+  			box-shadow: 0 5px 10px -2px rgba(0,0,0,0.3);
+  			overflow: hidden;
+  			bottom: 0;
+  			height: 100%;
+		}*/
+		/*#scr{
+			width: 740px;
+			height: 25px;
+			background: gray;
+			opacity: 0.6;
+			position: relative;
+			bottom: 30px;
+		}*/
+		.btn{
+			width: 45px;
+			height: 25px;
+			background: white;
+			display: inline-block;
+			position: absolute;
+			text-align: center;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<div id="bigImg">
+			<div class="minImg">
+			</div>
+			<div class="minImg" style="background-image: url(3.jpg);">
+			</div>
+			<span class="btn"><　></span>
+			<span class="btn"><　></span>
+		</div>
+		<!-- <div id="scr"> --><!-- </div> -->
+	</div>
+
+	<script>
+
+		//图片比较
+		$('span').eq(0).css({
+			left:'66%',
+			marginLeft:'-22px',
+			top:'45%',
+			marginTop:'-12px'
+		})
+		$('.minImg').eq(0).css({
+			width: '66%',
+		})
+		$('span').eq(1).css({
+			left:'33%',
+			marginLeft:'-22px',
+			top:'55%',
+			marginTop:'-12px'
+		})
+		function btn(index){
+			$('span').eq(index).mousedown(function(){
+				$('span').eq(index).mousemove(function(e){
+					var X=event.pageX
+					$('span').eq(index).css({
+						left: X+'px',
+						marginLeft:'-22px'
+					})
+					var Width=$('#bigImg').width()
+					console.log(Width)
+					$('.minImg').eq(index).css({
+						width: X+'px',
+					})
+					var spanLeft=$('span').eq(index).offset().left
+					if(spanLeft>Width-22){
+						$('.minImg').eq(index).css({
+							width: '740px',
+						})
+						$('span').eq(index).css({
+							left: '740px',
+							marginLeft:'-22px'
+						})
+						console.log('测试')
+					}else if(spanLeft<-22){
+						$('.minImg').eq(index).css({
+							width: '0px',
+						})
+						$('span').eq(index).css({
+							left: '0px',
+							marginLeft:'-22px'
+						})
+					}
+					console.log($('.minImg').eq(index).width())
+					if($('.minImg').eq(0).width()<$('.minImg').eq(1).width()){
+						$('.minImg').css({
+							width: X+'px',
+						})
+						$('span').css({
+							left: X+'px',
+							marginLeft:'-22px'
+						})
+					}
+					if($('.minImg').eq(1).width()>$('.minImg').eq(0).width()){
+						$('.minImg').css({
+							width: X+'px',
+						})
+						$('span').css({
+						left: X+'px',
+						marginLeft:'-22px'
+					})
+					}
+				});
+			});
+			$('span').eq(index).mouseup(function(){
+				$(this).unbind('mousemove')
+			});
+			$('span').eq(index).mouseleave(function() {
+				$(this).unbind('mousemove')
+			});
+		}
+		btn(0)
+		btn(1)
+		
+	</script>
+</body>
+</html>

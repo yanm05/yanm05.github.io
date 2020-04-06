@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.box{
+			background: pink;
+		}
+		label{
+			margin-right: 8px;
+		}
+		label input {
+			display: none;
+		}
+		.btn{
+			margin-bottom: 30px;
+		}
+		.btns{
+			margin-bottom: 30px;
+		}
+		.btn label input + span::before {
+			background-position-y: -50px;
+		}
+
+		label input + span::before {
+			width: 23px;
+			height: 23px;
+			content: "";
+			display: inline-block;
+			background: url("./icr-green-skin.png");
+			vertical-align: middle;
+		}
+		label input + span:hover:before {
+			background-position-x: -50px;
+		}
+
+		label input:checked + span::before {
+			background-position-x: -100px;
+		}
+		label input:checked + span:hover:before {
+			background-position-x: -150px;
+		}
+		input[type=submit]{
+			margin-left: 75px;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="box">
+		<form method="get">
+			
+			<div class="btn">单选按钮:
+				<label>
+					<input type="checkbox" id="" />
+					<span>红茶</span>
+				</label>
+				<label>
+					<input type="checkbox" id="" />
+					<span>绿茶</span>
+				</label>
+				<label>
+					<input type="checkbox" id="" />
+					<span>咖啡</span>
+				</label>
+			</div>
+			<div class="btns">多选按钮:
+				<label>
+					<input type="checkbox" id="" />
+					<span>苹果</span>
+				</label>
+				<label>
+					<input type="checkbox" id="" />
+					<span>橘子</span>
+				</label>
+				<label>
+					<input type="checkbox" id="" />
+					<span>香蕉</span>
+				</label>
+				<label>
+					<input type="checkbox" id="" />
+					<span>梨子</span>
+				</label>
+			</div>
+			
+			<input type="submit" value="提交" />
+		</form>
+	</div>
+	
+	
+</body>
+</html>

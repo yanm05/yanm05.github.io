@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+        }
+        .box{
+            width: 400px;
+            height: 120px;
+            background: skyblue;
+            padding: 25px;
+            display: flex;
+        }
+        .mask{
+            width: 80px;
+            height: 80px;
+            background: black;
+            border-radius: 50%;
+            padding: 20px;
+            animation: myrotate 6s linear infinite;
+            animation-play-state: paused;
+        }
+        .mask img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .finger{
+            width: 25px;
+            height: 60px;
+            margin-left: -10px;
+            transform-origin: 15px 10px;
+            transform: rotate(-15deg);
+            transition: 0.3s;
+        }
+        .box.playing .finger{
+            transform: rotate(5deg);
+        }
+        .box.playing .mask{
+            animation-play-state: running;
+        }
+        @keyframes myrotate{
+            from{
+                transform: rotate(0deg);
+            }
+            to{
+                transform: rotate(360deg);
+            }
+        }
+        .finger img{
+            width: 100%;
+            height: 100%;
+        }
+        h3,h5{
+            margin: 0;
+        }
+        input{
+            margin: 0;
+        }
+        .box_1{
+            flex: 1;
+            padding-left: 15px;
+        }
+        .box_1 div{
+            margin-top: 5px;
+        }
+        ul li.box.playing{
+            background: skyblue;
+        }
+        .progress input {
+            width: 90%;
+        }
+        audio{
+            display: none;
+        }
+        ul{
+            width: 400px;
+        }
+       
+    </style>
+</head>
+<body>
+    <audio src="https://music.163.com/song/media/outer/url?id=1432428744.mp3" controls></audio>
+    <div class="box">
+        <div class="backMask"></div>
+        <div class="mask">
+            <img src="http://p1.music.126.net/-EV4XhJEJn_Ib7ebS1OHhg==/109951164820593469.jpg" alt="">
+        </div>
+        <div class="finger">
+            <img src="./cd_tou.png" alt="">
+        </div>
+        <div class="box_1">
+            <h3>歌曲名</h3>
+            <h5>歌手名</h5>
+            <div class="btns">
+                <button><</button>
+                <button class="play">播放</button>
+                <button>></button>
+            </div>
+            <div class="progress">
+                <input type="range" value="0" min="0" step="0.01" max="100">
+            </div>
+            <div class="time">
+                <span>00:00</span>
+                <span>00:00</span>
+            </div>
+        </div>
+    </div>
+    <ul class="list"></ul>
+    <script src="./playlist.js"></script>
+    <script>
+        var list=document.querySelector('ul')
+        var audio=document.querySelector('audio')
+        var play=document.querySelector('.play')
+        var stage=document.querySelector('.box')
+        var progress=document.querySelector('.progress input')
+        var h3=document.querySelector('h3')
+        var h5=document.querySelector('h5')
+       
+        var current=0;
+        playlist.forEach(function(element){
+            var node=document.createElement('li')
+            node.innerText=element.name
+            node.style.listStyle='none'
+            list.appendChild(node)
+        })
+        function Url(id){
+            return 'https://music.163.com/song/media/outer/url?id=' + id + '.mp3'
+        }
+        song(playlist[current])
+
+        function song(obj){
+            audio.src=Url(obj.id)
+            h3.innerText=obj.name
+            h5.innerText=obj.artists
+            document.querySelector('.mask img').src=obj.picUrl
+            document.querySelector('.backMask').style.backgroundImage='url('+obj.picUrl+')'
+            
+            document.querySelectorAll('ul li').forEach(function(element,index){
+                if(index==current){
+                    element.classList.add('playing')
+                }else{
+                    element.classList.remove('playing')
+                }
+            })
+        }
+
+        play.onclick=function(){
+            if(audio.paused){
+                console.log(audio.play())
+                
+            }else{
+                audio.pause()
+            }
+        }
+
+        audio.onplay=function(){
+            stage.classList.add('playing')
+            play.innerText='暂停'
+        }
+        audio.onpause=function(){
+            stage.classList.remove('playing')
+            play.innerText='播放'
+        }
+        audio.ontimeupdate=function(){
+            if(isNaN(this.duration)){
+                return
+            }
+            progress.value=(this.currentTime/this.duration)*100
+
+            document.querySelectorAll('.time span')[0].innerText=Time(this.currentTime)
+        }
+        progress.onchange=function(){
+            audio.currentTime=(this.value * audio.duration) / 100
+        }
+        function Time(n){
+            var n = Math.floor(n);
+            var m = Math.floor(n / 60);
+            var s = n % 60;
+            m = m > 9 ? m : "0" + m;
+            s = s > 9 ? s : "0" + s;
+            return m + ":" + s;
+        }
+        audio.ondurationchange = function() {
+            document.querySelectorAll(".time span")[1].innerText = Time(this.duration);
+        };
+        audio.onended = function() {
+            current++;
+            if (current > playlist.length - 1) {
+                current = 0;
+            }
+            changeSong(playlist[current]);
+        };
+    </script>
+</body>
+</html>

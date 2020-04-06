@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        ._img{
+            width: 300px;
+            height: 360px;
+            border: 1px solid skyblue;
+            padding: 20px;
+            margin: 100px auto;
+        }
+        .img_1{
+            width: 300px;
+            height: 300px;
+            border: 1px solid skyblue;
+            position: relative;
+            background: url(originImg.jpg) no-repeat 0 0;
+        }
+        .img_1>div{
+            width: 50px;
+            height: 50px;
+            background: white;
+            position: absolute;
+            z-index: 999;
+            box-shadow: 0px 0px 2px 2px skyblue;
+            border-radius: 5px;
+        }
+        .img_1>.img_2{
+            z-index: 1000;
+        }
+        .slide{
+            margin-top: 20px;
+            width: 300px;
+            height: 30px;
+            border: 1px solid red;
+            position: relative;
+        }
+        .slide_1{
+            width: 50px;
+            height: 30px;
+            background: skyblue;
+            border-radius: 15px;
+            position: absolute;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="_img">
+        <div class="img_1">
+            <div class="img_2"></div >
+            <div class="img_3"></div>
+        </div>
+        <div class="slide">
+            <div class="slide_1"></div>
+        </div>
+    </div>
+
+    <script>
+        var div1=document.querySelector(".img_1")
+        var div2=document.querySelector(".img_2")
+        var div3=document.querySelector(".img_3")
+        var div4=document.querySelector(".slide")
+        var slide=document.querySelector(".slide_1")
+
+// console.log('鼠标移动')
+                // var a=slide.style.left+div2.style.left;
+                // console.log(div2.style.left)
+                // console.log(slide.style.left)
+                // console.log((parseInt(slide.style.left)+parseInt(div2.style.left)+'px'))
+        div3.style.top=Math.floor(Math.random()*(div1.offsetHeight-div3.offsetHeight))+"px";
+        // console.log(div3.style.top)
+        div3.style.right=Math.floor(Math.random()*div3.offsetHeight)+"px";
+        div2.style.top=div3.style.top;
+        div2.style.left=40+'px';
+        
+        // console.log(div3.offsetTop)
+        // console.log(offtop)
+        div2.style.backgroundImage="url(originImg.jpg)";
+        div2.style.backgroundRepeat="no-repeat";
+        div2.style.backgroundPosition='-'+div3.offsetLeft+'px -'+div3.offsetTop+'px';
+        
+        // console.log(div4)
+        var bili=((div1.offsetWidth-div2.offsetWidth)-parseInt(div2.style.left))/(div4.offsetWidth-slide.offsetWidth)
+        div4.onmousedown=function(e){
+        //    console.log(e.pageX) 
+        // slide.style.
+        e.stopPropagation();
+           div4.onmousemove=function(e){
+            var x=e.pageX-div4.offsetLeft;
+            // console.log(x)
+            // console.log(div4.offsetLeft)
+
+                
+                if((x - 25)<0){
+                    x=25;
+                }else if((x+25)>div4.offsetWidth){
+                    x=div4.offsetWidth-27;
+                }
+                slide.style.left=x - 25 +'px';
+                
+                
+                div2.style.left=parseInt(slide.style.left)*bili+40+'px';
+                // console.log(div2.style.left)
+                e.stopPropagation();
+           }
+           document.onmouseup=function(){
+                div4.onmousemove=null;
+                if(div3.offsetLeft-5<div2.offsetLeft&&div2.offsetLeft<div3.offsetLeft+5){
+                    
+                    alert("验证成功")
+                    div2.style.boxShadow="";
+                    div3.style.boxShadow="";
+                }else{
+                    slide.style.left=0;
+                    div2.style.left=40+'px';
+                }
+           }
+        }
+    </script>
+</body>
+</html>

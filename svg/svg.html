@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            .test {
+                stroke: orange;
+                fill: transparent;
+                r: 20;
+                animation: xxx 3s infinite alternate;
+            }
+            /* css3 动画方法 */
+            @keyframes xxx {
+                from {
+                    r: 0;
+                }
+                to {
+                    r: 50;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 默认300 150 -->
+        <svg>
+            <!-- <circle cx="50" cy="50" r="50" stroke="red" stroke-width="10px" fill="orange" /> -->
+            <!-- <circle cx="50" cy="50" r="50" style="stroke:red; stroke-width:10px; fill:orange" /> -->
+            <circle class="test" cx="50" cy="50" />
+        </svg>
+ 
+        <!-- 使用js方法 -->
+        <!-- <script>
+            var n = 0;
+            setInterval(function() {
+                n++;
+                document.querySelector(".test").r.baseVal.value = n;
+            }, 30);
+        </script> -->
+ 
+        <svg>
+            <!-- animate 原生svg动画 -->
+            <circle cx="50" cy="50" r="50" style="fill: orange">
+                <animate attributeName="r" values="0;50;0" dur="6s" repeatCount="indefinite" />
+            </circle>
+ 
+            <!-- 
+                animate 动画
+                attributeName 需要变化的属性
+                values 不同状态的值 xx;yy;zz
+                dur 时长
+                repeatCount 重复次数
+            -->
+        </svg>
+        <!-- 矩形 -->
+        <svg>
+            <rect
+                x="10"
+                y="10"
+                width="200"
+                height="100"
+                rx="50"
+                ry="50"
+                style="stroke: orange; fill:red; fill-opacity:0.1"
+            >
+                <animate
+                    attributeType="XML"
+                    attributeName="fill-opacity"
+                    values="0.1;1;0.1"
+                    dur="3s"
+                    repeatCount="indefinite"
+                />
+            </rect>
+        </svg>
+        <!-- 椭圆 -->
+        <svg>
+            <ellipse cx="50" cy="50" rx="50" ry="30"  />
+        </svg>
+        <!-- 线 与 多线 -->
+        <svg>
+            <line x1="0" y1="0" x2="100" y2="100" stroke="red" stroke-width="5" />
+ 
+            <polyline points="0,0 100,50 0,50"  stroke-width="10" stroke="black" fill="orange" />
+        </svg>
+ 
+        <!-- 多边形 -->
+        <svg>
+            <polygon points="0,0 100,50 0,50"  stroke-width='10' stroke="black" fill="orange"" />
+        </svg>
+ 
+        <!-- 路径 -->
+        <svg>
+            <!-- 定义路径 但是隐藏 -->
+            <defs>
+                <path
+                    id="path1"
+                    d="m0.75,32.83523l34.37718,0l10.62281,-32.08523l10.62282,32.08523l34.37718,0l-27.81168,19.82953l10.62336,32.08523l-27.81169,-19.83007l-27.81168,19.83007l10.62337,-32.08523l-27.81168,-19.82953z"
+                    stroke-width="1.5"
+                    stroke="#fff"
+                    fill="#000"
+                ></path>
+            </defs>
+            <text x="10" y="100" style="fill:red; font-size: 10px">
+                <textPath xlink:href="#path1">
+                    I love SVG I love SVGI love SVG I love SVGI love SVG I love SVGI love SVG I love SVGI love SVG I
+                    love SVGI love SVG I love SVGI love SVG I love SVGI love SVG I love SVG
+                </textPath>
+            </text>
+        </svg>
+ 
+        <!-- 路径 -->
+        <svg>
+           
+            <!-- 大写表示绝对定位，小写表示相对定位 -->
+ 
+            <path d="M10,10 l100,100 h-50 v-100 l-50,50 Z" fill="none" stroke="red" stroke-width="3" />
+        </svg>
+ 
+        <!-- 旋转 -->
+        <svg>
+            
+            <path
+                d="m0.75,32.83523l34.37718,0l10.62281,-32.08523l10.62282,32.08523l34.37718,0l-27.81168,19.82953l10.62336,32.08523l-27.81169,-19.83007l-27.81168,19.83007l10.62337,-32.08523l-27.81168,-19.82953z"
+                stroke-width="1.5"
+                stroke="#fff"
+                fill="#000"
+            >
+                <animateTransform
+                    attributeName="transform"
+                    attributeType="XML"
+                    type="rotate"
+                    values="0 45,42; 60 45,42; 0 45,42"
+                    dur="3"
+                    repeatCount="indefinite"
+                />
+            </path>
+        </svg>
+ 
+        <svg>
+            <path
+                id="svg_6"
+                d="m87.0675,62.94273l65.49992,-43.54401l65.50007,43.54401l-25.01869,70.45599l-80.96254,0l-25.01876,-70.45599z"
+                fill-opacity="null"
+                stroke-opacity="null"
+                stroke-width="1.5"
+                stroke="#000"
+                fill="#fff"
+            />
+            <circle r="10" style="fill:red">
+                <animateMotion
+                    dur="10s"
+                    repeatCount="indefinite"
+                    path="m87.0675,62.94273l65.49992,-43.54401l65.50007,43.54401l-25.01869,70.45599l-80.96254,0l-25.01876,-70.45599z"
+                ></animateMotion>
+            </circle>
+        </svg>
+ 
+        <svg width="230" height="230" viewBox="0 0 100 100" style="fill: orange;">
+            <!-- <circle cx="50" cy="50" r="50" style="" /> -->
+            <rect x="0" y="0" width="20" height="30" >
+                <animate
+                    attributeType="XML"
+                    attributeName="height"
+                    values="40; 100;40"
+                    dur="0.6s"
+                    repeatCount="indefinite"
+                />
+            </rect>
+            <rect x="40" y="0" width="20" height="30" >
+                <animate
+                    begin="0.2s"
+                    attributeType="XML"
+                    attributeName="height"
+                    values="40; 100;40"
+                    dur="0.6s"
+                    repeatCount="indefinite"
+                />
+            </rect>
+            <rect x="80" y="0" width="20" height="30" >
+                <animate
+                    begin="0.4s"
+                    attributeType="XML"
+                    attributeName="height"
+                    values="40; 100;40"
+                    dur="0.6s"
+                    repeatCount="indefinite"
+                />
+            </rect>
+        </svg>
+    </body>
+</html>
