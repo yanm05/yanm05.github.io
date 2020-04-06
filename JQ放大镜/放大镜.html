@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-3.4.1.min.js"></script>
+	<style>
+		#minImg{
+			width: 400px;
+			height: 400px;
+			border: 1px solid gray;
+			background: url(banner1.jpg);
+			background-position: center;
+			background-size: 100%;
+			position: relative;
+			display: inline-block;
+		}
+		#bigImg{
+			width: 400px;
+			height: 400px;
+			position: relative;
+			left: 420px;
+			
+			overflow: hidden;
+			display: inline-block;
+			/* display: none; */
+		}
+		#bigImg>img{
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		ul{
+			margin: 0;
+			padding: 0;
+			margin-top: 10px;
+			width: 400px;
+		}
+		li{
+			list-style-type: none;
+			width: 64px;
+			height: 64px;
+			float: left;
+			margin-left: 10px;
+			
+			border: 2px solid black;
+			padding: 2px;
+		}
+		li:first-child{
+			margin: 0;
+		}
+		li>img{
+			width: 64px;
+			height: 64px;
+		}
+		.active{
+			border: 2px solid #ff5e00;
+		}
+		#mask {
+			position: absolute;
+			/*display: none;*/
+			opacity: 0.5;
+			left: 0;
+			top: 0;
+			width: 200px;
+			height: 200px;
+			background: #ff9a60;
+			cursor: crosshair;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<button name="2">二倍</button>
+		<button name="3">三倍</button>
+		<button name="4">四倍</button>
+	</div>
+	<div>
+		<div id="bigImg"><img src="banner1.jpg"></div>
+		<div style="display: inline-block;position:absolute;left:0;">
+			<div id="minImg">
+				<div id="mask"></div>
+			</div>
+			<ul id="imgs">
+				<li class="active"><img src="banner1.jpg"></li>
+				<li><img src="banner2.jpg" ></li>
+				<li><img src="banner3.jpg" ></li>
+				<li><img src="banner4.jpg" ></li>
+				<li><img src="banner5.jpg" ></li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		$('#mask').hide()
+		$('#bigImg').hide()
+		var imgSize
+		$('button').click(function(){
+			var name=$(this).attr('name')
+			var minSize=$('#minImg').width()
+			imgSize=minSize+(minSize/2*name)
+			console.log(imgSize)
+			$('#bigImg>img').css({
+				width:imgSize+'px',
+				height:imgSize+'px'
+			})
+			Size()
+			console.log($('#bigImg>img').width())
+		})
+		function Size(){
+			var a=$('li').eq(0).css('background-image')
+			$('li').click(function() {
+				$('li').attr('class','')
+				$(this).attr('class','active')
+				var a=$(this).find('img').attr('src')
+				$('#minImg').css({
+					backgroundImage: 'url('+a+')',
+				})
+				$('#bigImg>img').attr('src',a)
+			});
+			$('#minImg').mouseover(function() {
+				$('#mask').show()
+				$('#bigImg').show()
+			});
+			$('#minImg').mouseout(function() {
+				$('#mask').hide()
+				$('#bigImg').hide()
+			});
+			$('#minImg').mousemove(function(event) {
+				// $('#bigImg').show()
+				 var pagex=event.pageX
+				 var pagey=event.pageY
+				 pagex=pagex-$('#minImg').offset().left-$('#mask').width()/2
+				 pagey=pagey-$('#minImg').offset().top-$('#mask').height()/2
+				 if(pagex<0){
+				 	pagex=0;
+				 }
+				 if(pagex>$('#minImg').width()-$('#mask').width()){
+				 	pagex=$('#minImg').width()-$('#mask').width()
+				 }
+				 if(pagey<0){
+				 	pagey=0;
+				 }
+				 if(pagey>$('#minImg').height()-$('#mask').height()){
+				 	pagey=$('#minImg').height()-$('#mask').height()
+				 }
+				 $('#mask').css({
+				 	left:pagex+'px',
+				 	top:pagey+'px'
+				 })
+				 if(imgSize===undefined){
+				 	imgSize=800
+				 }else{
+				 	imgSize=imgSize
+				 }
+				 var ratio=(imgSize-$('#bigImg').width()) / ($('#minImg').width()-$('#mask').width())
+				 console.log(imgSize)
+				 var X=pagex*ratio
+				 var Y=pagey*ratio
+				 $('#bigImg>img').css({
+				 	left:-X+'px',
+				 	top:-Y+'px'
+				 });
+			});
+			console.log($('#mask').width())
+		}
+		
+		Size()
+	</script>
+
+</body>
+</html>
